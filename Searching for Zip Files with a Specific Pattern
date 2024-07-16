@@ -1,0 +1,26 @@
+# Create directories based on the first word of each filename
+for file in *; do
+if [[ -f "$file" ]]; then
+dir=$(echo "$file" | awk '{print $1}');
+if [[ ! -d "$dir" ]]; then
+mkdir "$dir";
+fi;
+fi;
+done
+# Move each file into the directory with the same name
+for dir in *; do
+if [[ -d "$dir" ]]; then
+for file in "$dir "*; do
+if [[ -f "$file" ]]; then
+mv "$file" "$dir";
+fi;
+done;
+fi;
+done
+# Rename each directory by removing the '[]' characters from its name
+for dir in *; do
+if [[ -d "$dir" ]]; then
+newdir=$(echo "$dir" | tr -d '[]');
+mv "$dir" "$newdir";
+fi;
+done
